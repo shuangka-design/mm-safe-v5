@@ -1,4 +1,4 @@
-name: Build Android APK (Safe Mode v5)
+name: Build Android APK (Safe Mode v7 - Pure Java)
 
 on:
   push:
@@ -26,11 +26,13 @@ jobs:
 
       - name: Build Debug APK
         run: |
-          TARGET_DIR=$(find . -maxdepth 3 -name "settings.gradle.kts" -printf "%T@ %h\n" | sort -nr | head -n 1 | awk '{print $2}')
-          if [ -n "$TARGET_DIR" ]; then
-            echo "Building project in: $TARGET_DIR"
-            cd "$TARGET_DIR"
+          V7_APP_GRADLE=$(grep -rl "versionCode = 7" . | head -n 1)
+          if [ -n "$V7_APP_GRADLE" ]; then
+            PROJECT_ROOT=$(dirname $(dirname "$V7_APP_GRADLE"))
+            echo "Found v7 project root at: $PROJECT_ROOT"
+            cd "$PROJECT_ROOT"
           fi
+          find . -name "*.kt" -type f -delete
           gradle assembleDebug --console=plain
 
       - name: Upload APK Artifact
