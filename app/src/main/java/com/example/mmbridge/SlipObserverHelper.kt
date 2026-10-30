@@ -40,7 +40,9 @@ class SlipObserverHelper(
     fun stopWatching() {
         try {
             context.contentResolver.unregisterContentObserver(contentObserver)
-        } catch (_: Exception) {}
+        } catch (e: Exception) {
+            // Ignore
+        }
     }
 
     private fun checkLatestImage() {
@@ -89,7 +91,9 @@ class SlipObserverHelper(
                     }
                 }
             }
-        } catch (_: Exception) {}
+        } catch (e: Exception) {
+            // Ignore
+        }
     }
 
     private fun scanSlipAmount(uri: Uri, bankName: String) {

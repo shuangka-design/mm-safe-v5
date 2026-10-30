@@ -60,7 +60,9 @@ class BankNotificationService : NotificationListenerService() {
         try {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             clipboard.setPrimaryClip(ClipData.newPlainText("amount", item.amount))
-        } catch (_: Exception) {}
+        } catch (e: Exception) {
+            // Ignore clipboard error in background
+        }
 
         showQuickActionNotification(item)
     }
